@@ -1,11 +1,11 @@
 export const getTasks = async () => {
-    const  res = await fetch(
+    const res = await fetch(
         `http://localhost:8080/api/tasks`
     )
-        return res.json();
+    return res.json();
 };
 
-export const addTask = async(data) => {
+export const addTask = async (data) => {
     const res = await fetch(
         `http://localhost:8080/api/tasks`,
         {
@@ -16,11 +16,11 @@ export const addTask = async(data) => {
             body: JSON.stringify(data)
         }
     )
-        return res.json();
+    return res.json();
 };
 
 export const deleteTask = async (id) => {
-    const res =  fetch(
+    const res = fetch(
         `http://localhost:8080/api/tasks/${id}`,
         {
             method: 'DELETE'
@@ -40,5 +40,28 @@ export const updateTask = async (data) => {
             body: JSON.stringify(data)
         }
     )
-        return res.json();
+    return res.json();
 };
+
+export const login = async (username, password) => {
+    const response = await fetch('http://localhost:8080/api/users', {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'post',
+        body: JSON.stringify({ username: username, password: password })
+    });
+    return response.json();
+};
+
+export const signup = async (username, password) => {
+    const response = await fetch('http://localhost:8080/api/users?action=register', {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'post',
+        body: JSON.stringify({ username: username, password: password })
+    });
+    return response.json();
+};
+
