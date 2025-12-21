@@ -6,6 +6,7 @@ import tasksRouter from './api/tasks';
 import './db';
 import cors from 'cors';
 import usersRouter from './api/users';
+import authenticate from './authenticate';
 
 
 const errHandler = (err, req, res, next) => {
@@ -25,7 +26,7 @@ app.use(cors());
 const port = process.env.PORT;
 
 app.use(express.json());
-app.use('/api/tasks', tasksRouter);
+app.use('/api/tasks', authenticate, tasksRouter);
 app.use(errHandler);
 app.use(cors());
 app.use('/api/users', usersRouter);
