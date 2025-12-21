@@ -4,7 +4,7 @@ import asyncHandler from 'express-async-handler';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
-dotenv.config(); 
+dotenv.config();
 
 
 
@@ -36,10 +36,20 @@ router.post('/', asyncHandler(async (req, res) => {
 
 
 async function registerUser(req, res) {
-    // Add input validation logic here
+
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+    if (!passwordRegex.test(req.body.password)) {
+        return res.status(400).json({
+            success: false,
+            msg: "Password must be at least 8 characters long and include a letter, a number, and a special character."
+        });
+    }
+
     await User.create(req.body);
     res.status(201).json({ success: true, msg: 'User successfully created.' });
 }
+
 
 async function authenticateUser(req, res) {
     const user = await User.findByUserName(req.body.username);
